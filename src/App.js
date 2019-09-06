@@ -5,7 +5,7 @@ import NavBar from "./Components/NavBar";
 import NewUser from "./Components/NewUser";
 import SignIn from "./Components/SignIn";
 import Gallery from "./Components/Gallery";
-// import Tabs from "./Components/Tabs";
+import Account from "./Components/Account";
 
 import "./App.css";
 
@@ -17,7 +17,7 @@ function App() {
         <Route exact path="/" component={Gallery} />
         <Route path="/newUser" component={NewUser} />
         <Route path="/signIn" component={SignIn} />
-        {/* <Route path="/tabs" component={Tabs} /> */}
+        <Route path="/account" component={Account} />
       </Router>
     </div>
   );

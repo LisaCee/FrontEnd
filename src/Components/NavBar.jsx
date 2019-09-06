@@ -164,7 +164,7 @@ export default function PersistentDrawerRight() {
               <ListItemText primary='Log In' />
             </ListItem>
           </Link>
-          <Link to='/tabs'>
+          <Link to='/account'>
             <ListItem button>
               <ListItemIcon>
                 <PaletteIcon />
