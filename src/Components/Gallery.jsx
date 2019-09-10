@@ -35,9 +35,13 @@ const imageURL = 'https://picsum.photos/v2/list';
 export default function Gallery() {
   const classes = useStyles();
   const [images, getImages] = useState([]);
-  useEffect(async () => {
-    const result = await axios(imageURL);
-    getImages(result.data);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios(imageURL);
+      getImages(response.data);
+    }
+    fetchData();
   }, []);
   return (
     <div className={classes.root}>
