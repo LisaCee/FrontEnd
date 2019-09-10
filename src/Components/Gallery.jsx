@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Hidden from '@material-ui/core/Hidden';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import '../styles/gallery.css';
+import { nominalTypeHack } from 'prop-types';
 const axios = require('axios');
 
 const useStyles = makeStyles(theme => ({
@@ -58,13 +58,14 @@ export default function Gallery() {
     fetchText();
   }, []);
 
-  // const [toggle, makeToggle] = useState({});
-  // useEffect(() => {
-  //   makeToggle({text: dis})
-  // })
   function showDetails() {
-    let postContent = document.getElementById('title');
-    postContent.document.getElementById('description');
+    let postTitle = document.getElementById('title');
+    console.log('TITLE', postTitle);
+
+    // let postContent = document.getElementById('description');
+    postTitle.classList.add('displayHidden');
+    // postContent.classList.toggle('showHidden');
+    console.log('CLICK');
   }
   return (
     <div className={classes.root}>
@@ -74,14 +75,10 @@ export default function Gallery() {
             key={tile.id}
             cols={tile.featured ? 2 : 1}
             rows={tile.featured ? 2 : 1}
+            onClick={showDetails}
           >
-            <img
-              src={tile.download_url}
-              alt={tile.title}
-              onClick={showDetails}
-            />
+            <img src={tile.download_url} alt={tile.title} />
             <GridListTileBar
-              id='title'
               title={text[i].title}
               titlePosition='bottom'
               actionIcon={
@@ -94,6 +91,7 @@ export default function Gallery() {
               }
               actionPosition='left'
               className={classes.titleBar}
+              id='title'
             />
 
             <GridListTileBar
@@ -101,7 +99,7 @@ export default function Gallery() {
               title={text[i].body}
               titlePosition='bottom'
               actionPosition='left'
-              className={classes.titleBar}
+              className={classes.contentBar}
             />
           </GridListTile>
         ))}
