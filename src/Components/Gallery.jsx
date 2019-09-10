@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Hidden from '@material-ui/core/Hidden';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import '../styles/gallery.css';
 const axios = require('axios');
 
 const useStyles = makeStyles(theme => ({
@@ -55,19 +57,33 @@ export default function Gallery() {
     }
     fetchText();
   }, []);
+
+  // const [toggle, makeToggle] = useState({});
+  // useEffect(() => {
+  //   makeToggle({text: dis})
+  // })
+  function showDetails() {
+    let postContent = document.getElementById('title');
+    postContent.document.getElementById('description');
+  }
   return (
     <div className={classes.root}>
       <GridList cellHeight={200} spacing={1} className={classes.gridList}>
-        {images.map(tile => (
+        {images.map((tile, i) => (
           <GridListTile
             key={tile.id}
             cols={tile.featured ? 2 : 1}
             rows={tile.featured ? 2 : 1}
           >
-            <img src={tile.download_url} alt={tile.title} />
+            <img
+              src={tile.download_url}
+              alt={tile.title}
+              onClick={showDetails}
+            />
             <GridListTileBar
-              title={tile.title}
-              titlePosition='top'
+              id='title'
+              title={text[i].title}
+              titlePosition='bottom'
               actionIcon={
                 <IconButton
                   aria-label={`star ${tile.title}`}
@@ -76,6 +92,14 @@ export default function Gallery() {
                   <StarBorderIcon />
                 </IconButton>
               }
+              actionPosition='left'
+              className={classes.titleBar}
+            />
+
+            <GridListTileBar
+              id='description'
+              title={text[i].body}
+              titlePosition='bottom'
               actionPosition='left'
               className={classes.titleBar}
             />
