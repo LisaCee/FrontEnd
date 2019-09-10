@@ -32,16 +32,28 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const imageURL = 'https://picsum.photos/v2/list';
+const textURL = 'https://jsonplaceholder.typicode.com/posts';
+
 export default function Gallery() {
   const classes = useStyles();
-  const [images, getImages] = useState([]);
 
+  const [images, getImages] = useState([]);
   useEffect(() => {
     async function fetchData() {
       const response = await axios(imageURL);
       getImages(response.data);
     }
     fetchData();
+  }, []);
+
+  const [text, getText] = useState([]);
+  useEffect(() => {
+    async function fetchText() {
+      const response = await axios(textURL);
+      console.log(response.data);
+      getText(response.data);
+    }
+    fetchText();
   }, []);
   return (
     <div className={classes.root}>
