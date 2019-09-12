@@ -1,4 +1,9 @@
-import React from 'react';
+
+import React from "react";
+import { connect } from "react-redux";
+// import axios from 'axios';
+import { addPost } from '../actions';
+
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+
 
 function Copyright() {
   return (
@@ -56,9 +62,34 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Post() {
-  const classes = useStyles();
+ export class Post extends React.Component{
+  state = {
+    imageURL: "",
+    description:""
+  };
 
+  addPost = e => {
+    e.preventDefault();
+    
+    const post = {
+      // id:this.props.post.id,
+      // id: this.props.user.loggedinUser,
+      imageURL: this.state.imageURL,
+      description: this.state.description,
+    };
+    // if(this.props.posts.id){
+    this.props.addPost(post);
+    this.setState({ imageUrl: '', description: '' });
+    // }
+  };
+
+  handleInputChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  render(){
+
+    const classes = useStyles();
   return (
     <Container component='main' maxWidth='xs' id='newUser'>
       <CssBaseline />
@@ -69,7 +100,7 @@ export default function Post() {
         <Typography component='h1' variant='h5'>
           Create a Post
         </Typography>
-        <form className={classes.form} noValidate>
+        <form onSubmit={this.addPost} className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <TextField
@@ -104,9 +135,9 @@ export default function Post() {
                   Upload
                 </Button>
               </label>
-              <Typography display='block' variant='caption'>
+              {/* <Typography display='block' variant='caption'>
                 Upload feature coming soon
-              </Typography>
+              </Typography> */}
             </Grid>
           </Grid>
 
@@ -124,5 +155,19 @@ export default function Post() {
         <Copyright />
       </Box>
     </Container>
-  );
+   );
+  }
 }
+
+
+
+const mapStateToProps = state => ({
+  posts: state.posts,
+  fetchingData: state.fetchingData,
+  
+});
+
+export default connect(
+  mapStateToProps,
+  { addPost}
+)(Post);

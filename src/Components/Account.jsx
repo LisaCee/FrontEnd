@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -43,8 +44,16 @@ function a11yProps(index) {
   };
 }
 
-function Path() {
-  const classes = useStyles();
+class Path extends React.Component {
+  
+
+  render(){
+
+
+   
+
+    const {classes} = this.props;
+
   return (
     <div className={classes.root}>
       <Paper elevation={0} className={classes.paper}>
@@ -56,21 +65,26 @@ function Path() {
       </Paper>
     </div>
   );
-}
+}}
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
   }
-}));
+});
 
-export default function Account() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+class Account extends React.Component{
+
+render(){
+
+
+  const {classes} = this.props;
+  this.setState = {value: 0};
 
   function handleChange(event, newValue) {
-    setValue(newValue);
+    this.setState({value: newValue});
+    event.preventDefault();
   }
 
   return (
@@ -78,7 +92,7 @@ export default function Account() {
       <Path />
       <AppBar position='static'>
         <Tabs
-          value={value}
+          value={this.state}
           onChange={handleChange}
           aria-label='simple tabs example'
         >
@@ -87,15 +101,30 @@ export default function Account() {
           <Tab label='Settings' {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={this.state} index={0}>
         <Post />
       </TabPanel>
-      <TabPanel value={value} index={1}>
+      <TabPanel value={this.state} index={1}>
         Item Two
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      <TabPanel value={this.state} index={2}>
         Item Three
       </TabPanel>
     </div>
   );
-}
+}}
+
+
+
+const mapStateToProps = state => ({
+  error: state.error,
+  loggingIn: state.loggingIn,
+  user: state.user
+
+});
+
+
+export default connect(
+  mapStateToProps,
+  {}
+)  (withStyles(styles)(Account));

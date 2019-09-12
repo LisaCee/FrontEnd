@@ -1,4 +1,7 @@
+
 import React from 'react';
+import { connect } from 'react-redux';
+import { login } from '../actions';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +14,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 
 function Copyright() {
   return (
@@ -26,7 +29,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     height: '100vh'
   },
@@ -53,11 +56,43 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2)
   }
-}));
+});
 
-export default function SignInSide() {
-  const classes = useStyles();
+class SignInSide extends React.Component {
+  state = {
+    credentials: {
+      username: '',
+      password: '',
+      email:''
+    },
+    register: false,
+  };
 
+  handleChange = e => {
+    this.setState({
+      credentials: {
+        ...this.state.credentials,
+        [e.target.name]: e.target.value
+      }
+    });
+  };
+
+  // redirect = () => {
+  //   this.props.history.push('/protected');
+  // }
+
+  login = e => {
+    const creds = {
+      username: this.state.credentials.username,
+      password: this.state.credentials.password
+    }
+    e.preventDefault();
+    this.props.login(creds, this.redirect);
+  }
+
+
+render(){
+  const {classes} = this.props;
   return (
     <Grid container component='main' className={classes.root}>
       <CssBaseline />
@@ -70,17 +105,18 @@ export default function SignInSide() {
           <Typography component='h1' variant='h5'>
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
+          <form onSubmit={this.login} className={classes.form} noValidate>
+             <TextField
               variant='outlined'
               margin='normal'
               required
               fullWidth
-              id='email'
-              label='Email Address'
-              name='email'
-              autoComplete='email'
+              id='username'
+              label='username'
+              name='username'
+              autoComplete='usrename'
               autoFocus
+              onChange={this.handleChange}
             />
             <TextField
               variant='outlined'
@@ -92,6 +128,19 @@ export default function SignInSide() {
               type='password'
               id='password'
               autoComplete='current-password'
+              onChange={this.handleChange}
+            />
+            <TextField
+              variant='outlined'
+              margin='normal'
+              required
+              fullWidth
+              id='email'
+              label='Email Address'
+              name='email'
+              autoComplete='email'
+              autoFocus
+              onChange={this.handleChange}
             />
             <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
@@ -127,3 +176,18 @@ export default function SignInSide() {
     </Grid>
   );
 }
+}
+
+
+const mapStateToProps = state => ({
+  error: state.error,
+  loggingIn: state.loggingIn,
+  user: state.user
+
+});
+
+
+export default connect(
+  mapStateToProps,
+  { login }
+)  (withStyles(styles)(SignInSide));
