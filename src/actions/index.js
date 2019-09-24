@@ -33,6 +33,7 @@ export const register = (creds, redirect) => dispatch => {
  axios
     .post('https://artist-portfolio-backend.herokuapp.com/api/auth/register/', creds)
     .then(res => {
+      console.log(res)
       // if(res.data.authToken){
         // localStorage.setItem('token', res.data.authToken);
 console.log("register action",res)
@@ -75,7 +76,7 @@ export const deletePost = (id) => dispatch => {
   
   dispatch({ type: DELETE_POST_START });
   axios
-    .delete(`https://artist-portfolio-backend.herokuapp.com/api/iamges/${id}`)
+    .delete(`https://artist-portfolio-backend.herokuapp.com/api/images/${id}`)
     .then(res => { 
       console.log("actions log :",res.data.id)
       dispatch({ type: DELETE_POST_SUCCESS, payload: res.data.id });
