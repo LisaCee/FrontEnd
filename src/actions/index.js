@@ -7,7 +7,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const login = (creds, redirect) => dispatch => {
   dispatch({ type: LOGIN_START });
   return customAuth()
-    .post('https://artist-portfolio-backend.herokuapp.com/auth/login', creds)
+    .post('https://artist-portfolio-backend.herokuapp.com/api/auth/login/', creds)
     .then(res => {
       console.log(res.data);
       if(res.data.authToken){
@@ -31,7 +31,7 @@ export const register = (creds, redirect) => dispatch => {
   console.log("creds from action log", creds )
   dispatch({ type: REGISTER_START });
  axios
-    .post('https://artist-portfolio-backend.herokuapp.com/auth/register', creds)
+    .post('https://artist-portfolio-backend.herokuapp.com/api/auth/register/', creds)
     .then(res => {
       // if(res.data.authToken){
         // localStorage.setItem('token', res.data.authToken);
@@ -40,7 +40,7 @@ console.log("register action",res)
         // }
       })
       .catch(err => {
-        console.log(err);
+        console.log('ERROR', err);
         dispatch({ type: REGISTER_FAILURE})
       })
       .catch(err => console.log(err.response));

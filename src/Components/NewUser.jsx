@@ -51,7 +51,7 @@ const styles = theme => ({
   }
 });
 
-export class SignUp extends React.Component  {
+export class SignUp extends React.Component {
 
   state = {
     credentials: {
@@ -61,11 +61,11 @@ export class SignUp extends React.Component  {
     },
 
     register: false
-    
+
   };
-  
+
   // const classes = useStyles();
-  
+
   handleChange = e => {
     this.setState({
       credentials: {
@@ -86,6 +86,7 @@ export class SignUp extends React.Component  {
       password: this.state.credentials.password,
     };
     e.preventDefault();
+    console.log('CREDS', creds)
     this.props.register(creds, this.redirect);
   };
 
@@ -97,27 +98,27 @@ export class SignUp extends React.Component  {
   };
 
 
- 
-render (){
 
-  const {classes} = this.props;
+  render() {
 
-  return (
-    
-    // <Container component='main' maxWidth='xs' id='newUser'>
-    //   <CssBaseline />
-    <div>
-      <div className={classes.paper}>
-        {/* <Avatar className={classes.avatar}> */}
+    const { classes } = this.props;
+
+    return (
+
+      // <Container component='main' maxWidth='xs' id='newUser'>
+      //   <CssBaseline />
+      <div>
+        <div className={classes.paper}>
+          {/* <Avatar className={classes.avatar}> */}
           {/* <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'> */}
-        <h1> Sign up</h1>
-         
-        {/* </Typography> */}
-        <form onSubmit={this.signup} className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            {/* <Grid item xs={12}> */}
+          <h1> Sign up</h1>
+
+          {/* </Typography> */}
+          <form onSubmit={this.signup} className={classes.form} noValidate>
+            <Grid container spacing={2}>
+              {/* <Grid item xs={12}> */}
               <input
                 variant='outlined'
                 required
@@ -127,7 +128,7 @@ render (){
                 name='username'
                 onChange={this.handleChange}
               />
-            {/* </Grid>
+              {/* </Grid>
             <Grid item xs={12}> */}
               <input
                 variant='outlined'
@@ -138,7 +139,7 @@ render (){
                 name='email'
                 onChange={this.handleChange}
               />
-            {/* </Grid>
+              {/* </Grid>
             <Grid item xs={12}> */}
               <input
                 variant='outlined'
@@ -150,7 +151,7 @@ render (){
                 id='password'
                 onChange={this.handleChange}
               />
-            {/* </Grid>
+              {/* </Grid>
             <Grid item xs={12}> */}
               <input
                 variant='outlined'
@@ -170,36 +171,36 @@ render (){
             fullWidth
             variant='contained'
             color='primary'
-            // className={classes.submit}
+          // className={classes.submit}
           >
             Sign Up
           </button>
           {/* <Grid container justify='flex-end'>
             <Grid item> */}
-              <Link href='/signIn' variant='body2'>
-                Already have an account? Sign in
+          <Link href='/signIn' variant='body2'>
+            Already have an account? Sign in
               </Link>
-            {/* </Grid>
+          {/* </Grid>
           </Grid> */}
         </div>
       </div>
-    //   <Box mt={5}>
-    //     <Copyright />
-    //   </Box>
-    //  </div>
-    // </Container>
-    
-      );
-    }
-  }
+      //   <Box mt={5}>
+      //     <Copyright />
+      //   </Box>
+      //  </div>
+      // </Container>
 
-  const mapStateToProps = state => ({
-    error: state.error,
-    register: state.register,
-    credentials: state.credentials
-  });
-  
-  export default connect(
-    mapStateToProps,
-    { register }
-  )(withStyles(styles)(SignUp))
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  error: state.error,
+  register: state.register,
+  credentials: state.credentials
+});
+
+export default connect(
+  mapStateToProps,
+  { register }
+)(withStyles(styles)(SignUp))
