@@ -6,7 +6,6 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import "../styles/gallery.css";
-import { nominalTypeHack } from "prop-types";
 import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
@@ -46,7 +45,7 @@ export default function Gallery() {
     }
     fetchData();
   }, []);
-  
+
 
   const [text, getText] = useState([]);
   useEffect(() => {
