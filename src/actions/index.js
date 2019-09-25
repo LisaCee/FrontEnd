@@ -1,28 +1,6 @@
 
 import { customAuth } from '../utils/authenticator';
 import axios from 'axios';
-export const LOGIN_START = 'LOGIN_START';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const login = (creds, redirect) => dispatch => {
-  dispatch({ type: LOGIN_START });
-  return customAuth()
-    .post('https://artist-portfolio-backend.herokuapp.com/api/auth/login/', creds)
-    .then(res => {
-      console.log(res.data);
-      if(res.data.authToken){
-        localStorage.setItem('token', res.data.authToken);
-        redirect();
-        dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch({ type: LOGIN_FAILURE })
-    })
-};
-
-
 
 export const REGISTER_START = 'REGISTER_START';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
@@ -47,10 +25,26 @@ console.log("register action",res)
       .catch(err => console.log(err.response));
   };
 
-
-
-
-
+export const LOGIN_START = 'LOGIN_START';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const login = (creds, redirect) => dispatch => {
+  dispatch({ type: LOGIN_START });
+  return customAuth()
+    .post('https://artist-portfolio-backend.herokuapp.com/api/auth/login/', creds)
+    .then(res => {
+      console.log(res.data);
+      if(res.data.authToken){
+        localStorage.setItem('token', res.data.authToken);
+        // redirect();
+        dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: LOGIN_FAILURE })
+    })
+};
 
 export const FETCH_DATA_START = 'FETCH_DATA_START';
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
@@ -101,7 +95,6 @@ axios
 })
 .catch(err => console.log(err));
 };
-
 
 export const ADD_POST_START = 'ADD_POST_START';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';

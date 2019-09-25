@@ -42,9 +42,11 @@ export class SignUp extends React.Component {
     credentials: {
       userName: "",
       email: "",
-      password: ""
+      password: "",
+      password1: ""
     },
-
+    error: false,
+    errorMsg: "",
     register: false
   };
 
@@ -63,14 +65,33 @@ export class SignUp extends React.Component {
   };
 
   register = e => {
+    e.preventDefault();
     const creds = {
       userName: this.state.credentials.userName,
       email: this.state.credentials.email,
       password: this.state.credentials.password
     };
-    e.preventDefault();
-    console.log("CREDS", creds);
-    this.props.register(creds, this.redirect);
+
+    if (this.state.userName.length < 3) {
+      this.setState({
+        error: true,
+        errorMsg: "Username must be more than 3 characters"
+      });
+    } else if (this.state.password.length < 5) {
+      this.setState({
+        error: true,
+        errorMsg: "Password must be more than 5 characters"
+      });
+    } else if (this.state.password !== this.state.password1) {
+      this.setState({
+        error: true,
+        errorMsg: "Passwords don't match"
+      });
+    }
+    else {
+
+      this.props.register(creds, this.redirect);
+    }
   };
 
   signup = event => {
