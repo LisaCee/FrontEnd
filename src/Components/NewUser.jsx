@@ -4,6 +4,9 @@ import { register } from "../actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Paper from '@material-ui/core/Paper';
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -13,13 +16,22 @@ import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 
 const styles = theme => ({
-  "@global": {
-    body: {
-      backgroundColor: theme.palette.common.white
-    }
+  // "@global": {
+  //   body: {
+  //     backgroundColor: theme.palette.common.white
+  //   }
+  // },
+  root: {
+    height: '100vh'
+  },
+  image: {
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(8, 4),
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -30,7 +42,7 @@ const styles = theme => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(1)
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
@@ -72,24 +84,23 @@ export class SignUp extends React.Component {
       password: this.state.credentials.password
     };
 
-    if (this.state.userName.length < 3) {
+    if (this.state.credentials.userName.length < 3) {
       this.setState({
         error: true,
         errorMsg: "Username must be more than 3 characters"
       });
-    } else if (this.state.password.length < 5) {
+    } else if (this.state.credentials.password.length < 5) {
       this.setState({
         error: true,
         errorMsg: "Password must be more than 5 characters"
       });
-    } else if (this.state.password !== this.state.password1) {
+    } else if (this.state.credentials.password !== this.state.credentials.password1) {
       this.setState({
         error: true,
         errorMsg: "Passwords don't match"
       });
     }
     else {
-
       this.props.register(creds, this.redirect);
     }
   };
@@ -105,65 +116,65 @@ export class SignUp extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Container component="main" maxWidth="xs" id="newUser">
+      //copied from login 
+      <Grid container component='main' id="newUser" className={classes.root} maxWidth="xs">
         <CssBaseline />
-        <div>
+
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign up
-            </Typography>
+            <Typography component='h1' variant='h5'>
+              Sign Up
+          </Typography>
             <form onSubmit={this.signup} className={classes.form} noValidate>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="username"
-                    label="Username"
-                    name="userName"
-                    onChange={this.handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    onChange={this.handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    onChange={this.handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    type="password"
-                    id="confirmPassword"
-                    onChange={this.handleChange}
-                  />
-                </Grid>
-              </Grid>
+
+              <TextField
+                variant="outlined"
+                margin='normal'
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="userName"
+                onChange={this.handleChange}
+              />
+
+              <TextField
+                variant="outlined"
+                margin='normal'
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                onChange={this.handleChange}
+              />
+
+              <TextField
+                variant="outlined"
+                margin='normal'
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                onChange={this.handleChange}
+              />
+
+              <TextField
+                variant="outlined"
+                margin='normal'
+                required
+                fullWidth
+                name="password1"
+                label="Confirm Password"
+                type="password"
+                id="confirmPassword"
+                onChange={this.handleChange}
+              />
             </form>
             <Button
               onClick={this.register}
@@ -183,11 +194,15 @@ export class SignUp extends React.Component {
               </Grid>
             </Grid>
           </div>
-        </div>
-      </Container>
+          {/* <div>{this.state.error ? <p>{this.state.errorMsg}</p> : null}</div> */}
+          <Grid item xs={false} sm={4} md={7} className={classes.image} >
+          </Grid >
+        </Grid>
+      </Grid>
     );
   }
 }
+
 
 const mapStateToProps = state => ({
   error: state.error,
